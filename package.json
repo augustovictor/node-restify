@@ -9,5 +9,8 @@
   },
   "keywords": [],
   "author": "Victor Augusto",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "restify": "^4.0.4"
+  }
 }
