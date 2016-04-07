@@ -1,0 +1,13 @@
+{
+  "name": "node-restify",
+  "version": "1.0.0",
+  "description": "Learning restify",
+  "main": "index.js",
+  "repository": "https://github.com/augustovictor/node-restify",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Victor Augusto",
+  "license": "ISC"
+}
