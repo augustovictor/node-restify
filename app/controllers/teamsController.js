@@ -69,20 +69,35 @@ var teamsController = function() {
     return next();
   };
 
-  // var del = function(req, res, next) {
-  //   that.store = that.store.filter(function(p) {
-  //     return p.id !== parseInt(req.params.id);
-  //   });
-  //   res.send(200);
-  //   return next();
-  // };
+  var del = function(req, res, next) {
+    var team = models.Team.find({
+        where: {id: req.params.id}
+      }).then(team => {
+        if (team) {
+          team.destroy({
+              where: {
+                id: req.params.id
+              }
+            }).then(team => {
+              res.send(204, 'Team removed');
+            }).catch(err => {
+              res.send(500, err);
+            });
+        } else {
+          res.send(404, 'Team not found');
+        }
+      }).catch(err => {
+        res.send(500, err);
+      });
+    return next();
+  };
 
   return {
     get: get,
     post: post,
     getById: getById,
     put: put,
-    // del: del
+    del: del
   };
 };
 
