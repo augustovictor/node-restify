@@ -2,16 +2,18 @@ var models = require('../models/index');
 
 var teamsController = function() {
 
-  // var findProductById = function(req) {
-  //   var found = that.store.filter(function(p) {
-  //     return p.id === parseInt(req.params.id);
-  //   });
-  //
-  //   if (found && found.length > 0) {
-  //     return found[0];
-  //   }
-  //   return null;
-  // };
+  var mid = function(req) {
+    models.Team.find({where: {id: req.params.id}}).then(team => {
+      if (team) {
+        return team;
+      } else {
+        return null;
+      }
+    }).catch(err => {
+      return err;
+    });
+
+  };
 
   var get = function(req, res, next) {
     var query = {};
@@ -28,15 +30,18 @@ var teamsController = function() {
         });
   };
 
-  // var getById = function(req, res, next) {
-  //   var team = findProductById(req);
-  //   if (team) {
-  //     res.send(200, team);
-  //   } else {
-  //     res.send(404, 'Product not found');
-  //   }
-  //   return next();
-  // };
+  var getById = function(req, res, next) {
+    models.Team.find({where: {id: req.params.id}}).then(team => {
+      if (team) {
+        res.send(team);
+      } else {
+        res.send(404, 'Team not found');
+      }
+    }).catch(err => {
+      res.send(500, err);
+    });
+    return next();
+  };
 
   var post = function(req, res, next) {
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('coach')) {
@@ -78,9 +83,10 @@ var teamsController = function() {
   // };
 
   return {
+    mid: mid,
     get: get,
-    post: post
-    // getById: getById,
+    post: post,
+    getById: getById
     // put: put,
     // del: del
   };
