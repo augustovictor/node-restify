@@ -1,6 +1,15 @@
 var models = require('../models/index');
+var Promise = require('bluebird');
 
 var teamsController = function() {
+
+  var mid = function(req, res, next) {
+    return models.Team.find({
+        where: {id: req.params.id}
+      }).then(team => {
+        return team;
+      });
+  };
 
   var get = function(req, res, next) {
     var query = {};
@@ -18,14 +27,12 @@ var teamsController = function() {
   };
 
   var getById = function(req, res, next) {
-    models.Team.find({where: {id: req.params.id}}).then(team => {
-      if (team) {
-        res.send(team);
+    mid(req).then(result => {
+      if (result) {
+        res.send(result);
       } else {
         res.send(404, 'Team not found');
       }
-    }).catch(err => {
-      res.send(500, err);
     });
     return next();
   };
@@ -93,6 +100,7 @@ var teamsController = function() {
   };
 
   return {
+    mid: mid,
     get: get,
     post: post,
     getById: getById,
