@@ -1,5 +1,4 @@
 var restify = require('restify');
-var product = require('./product');
 var port = process.env.PORT || 3000;
 
 var server = restify.createServer({
@@ -13,11 +12,7 @@ server.use(function(req, res, next) {
 
 server.use(restify.bodyParser());
 
-server.get('api/v1/products', product.get);
-server.get('api/v1/products/:id', product.getById);
-server.post('api/v1/products', product.post);
-server.put('api/v1/products/:id', product.put);
-server.del('api/v1/products/:id', product.del);
+var productRouter = require('./app/routes/productRoutes')(server);
 
 server.listen(3000, function() {
   console.log('api running at' + port);
