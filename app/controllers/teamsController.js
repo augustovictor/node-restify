@@ -38,18 +38,21 @@ var teamsController = function() {
   //   return next();
   // };
 
-  // var post = function(req, res, next) {
-  //   if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('name')) {
-  //     res.send(500);
-  //   } else {
-  //     that.store.push({
-  //       id: parseInt(req.body.id),
-  //       name: req.body.name
-  //     });
-  //     res.send(201);
-  //   }
-  //   return next();
-  // };
+  var post = function(req, res, next) {
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('coach')) {
+      res.send(400, 'Name and coach are required');
+    } else {
+      models.Team.create({
+        name: req.body.name,
+        coach: req.body.coach
+      }).then(team => {
+        res.send(201, team);
+      }).catch(err => {
+        res.send(500, err);
+      });
+    }
+    return next();
+  };
 
   // var put = function(req, res, next) {
   //   if (!req.body.hasOwnProperty('name')) {
@@ -75,8 +78,8 @@ var teamsController = function() {
   // };
 
   return {
-    get: get
-    // post: post,
+    get: get,
+    post: post
     // getById: getById,
     // put: put,
     // del: del
