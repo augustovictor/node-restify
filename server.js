@@ -14,7 +14,7 @@ server.use(function(req, res, next) {
 
 server.use(restify.bodyParser());
 
-var productRouter = require('./app/routes/productRoutes')(server);
+var teamRouter = require('./app/routes/teamRoutes')(server);
 
 server.listen(3000, function() {
   console.log('api running at' + port);
