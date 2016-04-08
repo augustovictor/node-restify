@@ -1,4 +1,4 @@
-function ProductsController() {
+var productsController = function() {
   var that = this;
   that.store = [];
 
@@ -13,12 +13,12 @@ function ProductsController() {
     return null;
   };
 
-  that.get = function(req, res, next) {
+  var get = function(req, res, next) {
     res.send(200, that.store);
     return next();
   };
 
-  that.getById = function(req, res, next) {
+  var getById = function(req, res, next) {
     var product = findProductById(req);
     if (product) {
       res.send(200, product);
@@ -28,7 +28,7 @@ function ProductsController() {
     return next();
   };
 
-  that.post = function(req, res, next) {
+  var post = function(req, res, next) {
     if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('name')) {
       res.send(500);
     } else {
@@ -41,7 +41,7 @@ function ProductsController() {
     return next();
   };
 
-  that.put = function(req, res, next) {
+  var put = function(req, res, next) {
     if (!req.body.hasOwnProperty('name')) {
       res.send(500);
       return next();
@@ -56,13 +56,21 @@ function ProductsController() {
     return next();
   };
 
-  that.del = function(req, res, next) {
+  var del = function(req, res, next) {
     that.store = that.store.filter(function(p) {
       return p.id !== parseInt(req.params.id);
     });
     res.send(200);
     return next();
   };
-}
 
-module.exports = new ProductsController();
+  return {
+    get: get,
+    post: post,
+    getById: getById,
+    put: put,
+    del: del
+  };
+};
+
+module.exports = productsController();
