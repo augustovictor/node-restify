@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var dbConfig = require('./config.json').development;
+var dbConfig = require('../config.json').development;
 var connection = new Sequelize(
     dbConfig.database, dbConfig.username, dbConfig.password
 );
