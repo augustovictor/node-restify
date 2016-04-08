@@ -1,5 +1,4 @@
 var models = require('../models/index');
-var Promise = require('bluebird');
 
 var teamsController = function() {
 
@@ -7,7 +6,12 @@ var teamsController = function() {
     return models.Team.find({
         where: {id: req.params.id}
       }).then(team => {
-        return team;
+        if (team) {
+          req.team = team;
+          return next();
+        }
+      }).catch(err => {
+        return err;
       });
   };
 
@@ -27,9 +31,9 @@ var teamsController = function() {
   };
 
   var getById = function(req, res, next) {
-    mid(req).then(result => {
-      if (result) {
-        res.send(result);
+    mid(req).then(() => {
+      if (req.team) {
+        res.send(req.team);
       } else {
         res.send(404, 'Team not found');
       }
