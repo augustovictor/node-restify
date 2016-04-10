@@ -71,26 +71,6 @@ var teamsController = function() {
         res.send(404, 'Team not found');
       }
     });
-    return next();
-
-    // var team = models.Team.find({
-    //   where: {id: req.params.id}
-    // }).then(team => {
-    //   if (team) {
-    //     team.update({
-    //         name: req.body.name,
-    //         coach: req.body.coach
-    //       }).then(team => {
-    //         res.send(200, team);
-    //       }).catch(err => {
-    //         res.send(500, err);
-    //       });
-    //   } else {
-    //     res.send(404, 'Team not found');
-    //   }
-    // }).catch(err => {
-    //   res.send(500, err);
-    // });
 
     return next();
   };
