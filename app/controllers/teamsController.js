@@ -4,15 +4,14 @@ var teamsController = function() {
 
   var mid = function(req, res, next) {
     return models.Team.find({
-        where: {id: req.params.id}
-      }).then(team => {
-        if (team) {
-          req.team = team;
-          return next();
-        }
-      }).catch(err => {
-        return err;
-      });
+      where: {id: req.params.id}
+    }).then(result => {
+      if (result) {
+        return result;
+      }
+    }).catch(err => {
+      return err;
+    });
   };
 
   var get = function(req, res, next) {
@@ -31,9 +30,9 @@ var teamsController = function() {
   };
 
   var getById = function(req, res, next) {
-    mid(req).then(() => {
-      if (req.team) {
-        res.send(req.team);
+    mid(req).then(result => {
+      if (result) {
+        res.send(result);
       } else {
         res.send(404, 'Team not found');
       }
@@ -104,7 +103,6 @@ var teamsController = function() {
   };
 
   return {
-    mid: mid,
     get: get,
     post: post,
     getById: getById,
