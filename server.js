@@ -2,6 +2,7 @@ var restify = require('restify');
 var port = process.env.PORT || 3000;
 
 var db = require('./app/config/db/dbConfig')();
+db.init;
 
 var server = restify.createServer({
   name: 'restifyServer'

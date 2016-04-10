@@ -14,6 +14,7 @@ var init = function() {
       console.error(err);
     });
 
+  return this;
 };
 
 module.exports = init;
