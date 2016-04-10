@@ -76,25 +76,20 @@ var teamsController = function() {
   };
 
   var del = function(req, res, next) {
-    var team = models.Team.find({
-        where: {id: req.params.id}
-      }).then(team => {
-        if (team) {
-          team.destroy({
-              where: {
-                id: req.params.id
-              }
-            }).then(team => {
-              res.send(204, 'Team removed');
-            }).catch(err => {
-              res.send(500, err);
-            });
-        } else {
-          res.send(404, 'Team not found');
-        }
-      }).catch(err => {
-        res.send(500, err);
-      });
+    mid(req).then(result => {
+      if (result) {
+        result.destroy({
+          where: {id: req.params.id}
+        }).then(result => {
+          res.send(204, 'Team removed');
+        }).catch(err => {
+          res.send(err);
+        });
+      } else {
+        res.send(404, 'Team not found');
+      }
+    });
+
     return next();
   };
 
