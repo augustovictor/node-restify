@@ -7,6 +7,7 @@ var playerRouter = function(server) {
   server.get({path: 'api/teams/:teamId/players/:id', version: V1_0_0}, player.getById);
   server.post({path: 'api/teams/:teamId/players', verstion: V1_0_0}, player.post);
   server.put({path: 'api/teams/:teamId/players/:id', version: V1_0_0}, player.put);
+  server.del({path: 'api/teams/:teamId/players/:id', version: V1_0_0}, player.del);
 
   return server;
 

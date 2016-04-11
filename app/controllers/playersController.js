@@ -89,11 +89,29 @@ var playersController = function() {
     return next();
   };
 
+  var del = function(req, res, next) {
+    mid(req).then(result => {
+      if (result) {
+        result.destroy({
+          where: {id: req.params.id}
+        }).then(result => {
+          res.send(204, 'Player removed');
+        });
+      } else {
+        res.send(404, 'Player not found');
+      }
+    }).catch(err => {
+      res.send(500, err);
+    });
+    return next();
+  };
+
   return {
     get: get,
     post: post,
     getById: getById,
-    put: put
+    put: put,
+    del: del
   };
 };
 
