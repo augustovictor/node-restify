@@ -3,9 +3,12 @@ var dbConfig = require('../config.json').development;
 var connection = new Sequelize(
     dbConfig.database, dbConfig.username, dbConfig.password
 );
-var init = function() {
 
-  connection.sync({
+module.exports = () => {
+
+  var models = require('../../models/index');
+
+  models.sequelize.sync({
       force: true,
       logging: console.log
     }).then(function() {
@@ -14,7 +17,4 @@ var init = function() {
       console.error(err);
     });
 
-  return this;
 };
-
-module.exports = init;
