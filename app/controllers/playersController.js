@@ -58,7 +58,28 @@ var playersController = function() {
   var getById = function(req, res, next) {
     mid(req, res).then(result => {
       if (result) {
-        res.send(200, result);
+        res.send(201, result);
+      } else {
+        res.send(404, 'Player not found');
+      }
+    }).catch(err => {
+      res.send(500, err);
+    });
+    return next();
+  };
+
+  var put = function(req, res, next) {
+    mid(req).then(result => {
+      if (result) {
+        var player = req.body;
+        result.update({
+          name: player.name || result.name,
+          age: player.age || result.age,
+          number: player.number || player.number,
+          TeamId: player.TeamId || player.TeamId
+        }).then(result => {
+          res.send(200, result);
+        });
       } else {
         res.send(404, 'Player not found');
       }
@@ -71,7 +92,8 @@ var playersController = function() {
   return {
     get: get,
     post: post,
-    getById: getById
+    getById: getById,
+    put: put
   };
 };
 
