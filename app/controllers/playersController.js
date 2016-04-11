@@ -2,7 +2,7 @@ var models = require('../models/index');
 
 var playersController = function() {
 
-  var mid = function(req, res) {
+  var mid = function(req) {
     return models.Player.find({
       where: {
         id: req.params.id,
@@ -36,6 +36,25 @@ var playersController = function() {
     return next();
   };
 
+  var post = function(req, res, next) {
+    var player = req.body;
+    if (!req.body.hasOwnProperty('name')) {
+      res.send(400, 'Attribute name is required');
+    } else {
+      models.Player.create({
+        name: player.name,
+        age: player.age,
+        number: player.number,
+        TeamId: req.params.teamId
+      }).then(player => {
+        res.send(200, player);
+      }).catch(err => {
+        res.send(500, err);
+      });
+    }
+    return next();
+  };
+
   var getById = function(req, res, next) {
     mid(req, res).then(result => {
       if (result) {
@@ -51,6 +70,7 @@ var playersController = function() {
 
   return {
     get: get,
+    post: post,
     getById: getById
   };
 };
