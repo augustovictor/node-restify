@@ -17,8 +17,37 @@ var gamesController = function() {
     });
     return next();
   };
+
+  var post = function(req, res, next) {
+    var game = req.body;
+    if (
+        !game.hasOwnProperty('teamH') ||
+        !game.hasOwnProperty('teamV') ||
+        !game.hasOwnProperty('gameDate') ||
+        !game.hasOwnProperty('place')
+    ) {
+      res.send(400, 'teamHome, teamVisitor, gameDate and place are required');
+    } else {
+      models.Game.create({
+        teamH: game.teamH,
+        teamV: game.teamV,
+        gameDate: game.gameDate,
+        place: game.place,
+        ticketPrice: game.ticketPrice,
+        placeLink: game.placeLink
+      }).then(result => {
+        res.send(201, result);
+      }).catch(err => {
+        res.send(500, err);
+      });
+
+    }
+    return next();
+  };
+
   return {
-    get: get
+    get: get,
+    post: post
   };
 };
 
