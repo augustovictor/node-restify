@@ -79,6 +79,8 @@ var playersController = function() {
           TeamId: player.TeamId || player.TeamId
         }).then(result => {
           res.send(200, result);
+        }).catch(err => {
+          res.send(500, err);
         });
       } else {
         res.send(404, 'Player not found');
