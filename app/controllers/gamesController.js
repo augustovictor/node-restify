@@ -78,10 +78,38 @@ var gamesController = function() {
     return next();
   };
 
+  var put = function(req, res, next) {
+    var game = req.body;
+    if (game.hasOwnProperty('teamH') || game.hasOwnProperty('teamV')) {
+      res.send(400, 'Attributes not allowed');
+    } else {
+      mid(req).then(result => {
+        if (result) {
+          result.update({
+            gameDate: game.gameDate || result.gameDate,
+            ticketPrice: game.ticketPrice || result.ticketPrice,
+            place: game.place || result.place,
+            placeLink: game.placeLink || result.placeLink
+          }).then(result => {
+            res.send(200, result);
+          }).catch(err => {
+            res.send(500, err);
+          });
+        } else {
+          res.send(404, 'Games not found');
+        }
+      }).catch(err => {
+        res.send(500, err);
+      });
+    }
+    return next();
+  };
+
   return {
     get: get,
     post: post,
-    getById: getById
+    getById: getById,
+    put: put
   };
 };
 
