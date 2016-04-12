@@ -1,12 +1,33 @@
 var models = require('../models/index');
-var middleware = require('../middlewares/generics');
 
 var gamesController = function() {
 
   var Game = models.Game;
 
+  var mid = function(req) {
+    return Game.find({
+      where: {
+        id: req.params.id
+      },
+      include: [
+          {
+            model: models.Team, as: 'teamHome',
+            include: [models.Player]
+          },
+          {
+            model: models.Team, as: 'teamVisitor',
+            include: [models.Player]
+          }
+      ]
+    }).then(result => {
+      return result;
+    }).catch(err => {
+      return err;
+    });
+  };
+
   var get = function(req, res, next) {
-    models.Game.findAll({}).then(result => {
+    Game.findAll({}).then(result => {
       if (result) {
         res.send(200, result);
       } else {
@@ -28,7 +49,7 @@ var gamesController = function() {
     ) {
       res.send(400, 'teamHome, teamVisitor, gameDate and place are required');
     } else {
-      models.Game.create({
+      Game.create({
         teamH: game.teamH,
         teamV: game.teamV,
         gameDate: game.gameDate,
@@ -40,14 +61,27 @@ var gamesController = function() {
       }).catch(err => {
         res.send(500, err);
       });
-
     }
+    return next();
+  };
+
+  var getById = function(req, res, next) {
+    mid(req).then(result => {
+      if (result) {
+        res.send(200, result);
+      } else {
+        res.send(400, 'Games not found');
+      }
+    }).catch(err => {
+      res.send(500, err);
+    });
     return next();
   };
 
   return {
     get: get,
-    post: post
+    post: post,
+    getById: getById
   };
 };
 

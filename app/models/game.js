@@ -11,10 +11,12 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Game.belongsTo(models.Team, {
-          foreignKey: 'teamH'
+          foreignKey: 'teamH',
+          as: 'teamHome'
         }),
         Game.belongsTo(models.Team, {
-          foreignKey: 'teamV'
+          foreignKey: 'teamV',
+          as: 'teamVisitor'
         });
       }
     }
