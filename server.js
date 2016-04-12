@@ -17,6 +17,7 @@ server.use(restify.bodyParser());
 // Routes
 var teamRouter = require('./app/routes/teamRoutes')(server);
 var playerRouter = require('./app/routes/playerRoutes')(server);
+var gameRouter = require('./app/routes/gameRoutes')(server);
 
 server.listen(3000, function() {
   console.log('api running at' + port);
