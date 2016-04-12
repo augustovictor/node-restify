@@ -105,11 +105,31 @@ var gamesController = function() {
     return next();
   };
 
+  var del = function(req, res, done) {
+    mid(req).then(result => {
+      if (result) {
+        result.destroy({
+          where: {id: req.params.id}
+        }).then(result => {
+          res.send(204, 'Game removed');
+        }).catch(err => {
+          res.send(500, err);
+        });
+      } else {
+        res.send(404, 'Games not found');
+      }
+    }).catch(err => {
+      res.send(500, err);
+    });
+    return done();
+  };
+
   return {
     get: get,
     post: post,
     getById: getById,
-    put: put
+    put: put,
+    del: del
   };
 };
 
