@@ -1,12 +1,13 @@
 'use strict';
 // sequelize db:seed:all
-// sequelize db:seed --seed seeders/teams.js
+// sequelize db:seed --seed seeders/games.js
 
 // sequelize:db:seed:undo:all
-// sequelize db:seed:undo --seed seeders/teams.js
+// sequelize db:seed:undo --seed seeders/games.js
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    var teams = [];
+
+    var games = [];
     var date = new Date;
 
     date =  new Date(
@@ -22,22 +23,26 @@ module.exports = {
         ':00'
     );
 
+    // Games
     for (var i = 1; i <= 10; i++) {
-      teams.push({
-        'name':      'Team ' + i,
-        'coach':     'Coach ' + i,
-        'createdAt': date,
-        'updatedAt': date
+      games.push({
+        teamH: 1,
+        teamV: Math.floor(Math.random() * 9) + 2,
+        gameDate: date,
+        place: 'National league state',
+        placeLink: 'https://www.google.com.br/maps',
+        createdAt: date,
+        updatedAt: date
       });
     }
     return queryInterface.bulkInsert(
-        'teams', teams,
+        'games', games,
         {
           schema: 'scorefa'
         }
     );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Teams', null, {});
+    return queryInterface.bulkDelete('Games', null, {});
   }
 };
