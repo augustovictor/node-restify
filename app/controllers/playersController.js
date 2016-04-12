@@ -47,7 +47,7 @@ var playersController = function() {
         number: player.number,
         TeamId: req.params.teamId
       }).then(player => {
-        res.send(200, player);
+        res.send(201, player);
       }).catch(err => {
         res.send(500, err);
       });
@@ -58,7 +58,7 @@ var playersController = function() {
   var getById = function(req, res, next) {
     mid(req, res).then(result => {
       if (result) {
-        res.send(201, result);
+        res.send(200, result);
       } else {
         res.send(404, 'Player not found');
       }
