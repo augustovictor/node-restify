@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       ticketPrice: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(10, 2)
       },
       place: {
         type: Sequelize.STRING

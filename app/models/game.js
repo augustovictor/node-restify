@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     teamH: DataTypes.INTEGER,
     teamV: DataTypes.INTEGER,
     gameDate: DataTypes.DATE,
-    ticketPrice: DataTypes.DECIMAL,
+    ticketPrice: DataTypes.DECIMAL(10, 2),
     place: DataTypes.STRING,
     placeLink: DataTypes.TEXT
   }, {
